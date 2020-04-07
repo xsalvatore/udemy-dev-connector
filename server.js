@@ -8,6 +8,9 @@ const app = express();
 // connects to the database
 connectDB();
 
+// initializes our middlewares
+app.use(express.json({ extended: false }));
+
 // returns a message to signify the api is running
 app.get('/', (req, res) => res.send('API running'));
 
@@ -21,4 +24,4 @@ app.use('/api/users', require('./routes/api/users'));
 const PORT = process.env.PORT || 5000;
 
 // launches the app and specifies on which port to listen for calls
-app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+app.listen(PORT, () => console.log(`server started on port ${PORT}`));

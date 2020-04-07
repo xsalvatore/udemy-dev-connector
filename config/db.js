@@ -11,11 +11,12 @@ const connectDB = async () => {
     // waits until the connection has been established with the database
     await mongoose.connect(db, {
       useNewUrlParser: true,
-      useUnifiedTopology: true
+      useUnifiedTopology: true,
+      useCreateIndex: true
     });
 
     // logs a message to the console
-    console.log('MongoDB connected...');
+    console.log('mongodb connected');
   } catch (err) {
     // logs a message to the console
     console.log(err.message);

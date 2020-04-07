@@ -1,5 +1,7 @@
+// modules importation
 const express = require('express');
 
+// modules importation
 const router = express.Router();
 
 // @route           get api/posts
@@ -7,4 +9,5 @@ const router = express.Router();
 // @access          public
 router.get('/', (req, res) => res.send('Posts route'));
 
+// exports each routes from the router
 module.exports = router;

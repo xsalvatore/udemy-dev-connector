@@ -31,8 +31,6 @@ router.get('/', auth, async (req, res) => {
   }
 });
 
-// ***************************************************
-
 // @route           post api/auth
 // @description     authenticate user and get token
 // @access          public
@@ -108,8 +106,6 @@ router.post(
     }
   }
 );
-
-// ***************************************************
 
 // exports each routes from the router
 module.exports = router;

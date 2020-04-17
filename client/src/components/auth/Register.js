@@ -1,8 +1,13 @@
 // imports the packages
 import React, { Fragment, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-export const Register = () => {
+// imports our redux alerts actions
+import { setAlert } from '../../actions/alert';
+
+const Register = ({ setAlert }) => {
   // implements the usestate hook for the registration form
   const [formData, setFormData] = useState({
     name: '',
@@ -26,7 +31,7 @@ export const Register = () => {
 
     // if both passwords don't match, logs a custom error message into the console (temporary)
     if (password !== password2) {
-      console.log('passwords do not match');
+      setAlert('Passwords do not match', 'danger ');
     } else {
       console.log('success');
     }
@@ -83,3 +88,11 @@ export const Register = () => {
     </Fragment>
   );
 };
+
+// holds the types of props passed to the component
+Register.propTypes = {
+  setAlert: PropTypes.func.isRequired,
+};
+
+// exports our components with connect from react-redux
+export default connect(null, { setAlert })(Register);

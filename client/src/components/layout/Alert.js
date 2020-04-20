@@ -4,13 +4,15 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 const Alert = ({ alerts }) => {
-  alerts !== null &&
+  return (
+    alerts !== null &&
     alerts.length > 0 &&
     alerts.map((alert) => (
       <div key={alert.id} className={`alert alert-${alert.alertType}`}>
         {alert.msg}
       </div>
-    ));
+    ))
+  );
 };
 
 // holds the types of props passed to the component

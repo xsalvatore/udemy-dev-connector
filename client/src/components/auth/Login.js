@@ -3,6 +3,8 @@ import React, { Fragment, useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+
+// imports our redux actions
 import { login } from '../../actions/auth';
 
 const Login = ({ login, isAuthenticated }) => {
@@ -25,10 +27,11 @@ const Login = ({ login, isAuthenticated }) => {
     // prevents the browser from refreshing the page
     e.preventDefault();
 
+    // logs in the user through redux login action
     login(email, password);
   };
 
-  // redirects the user if he is logged in
+  // if the user is authenticated, redirects him to the dashboard
   if (isAuthenticated) {
     return <Redirect to='/dashboard' />;
   }
@@ -69,13 +72,16 @@ const Login = ({ login, isAuthenticated }) => {
   );
 };
 
+// holds the types of props passed to the component
 Login.propTypes = {
   login: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool,
 };
 
+// holds the pieces of state from redux we need inside this component
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
 });
 
+// connects our react component with redux
 export default connect(mapStateToProps, { login })(Login);

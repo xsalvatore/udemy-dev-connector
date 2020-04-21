@@ -7,24 +7,31 @@ import { Provider } from 'react-redux';
 import store from './store';
 
 // imports the components
-import { Navbar } from './components/layout/Navbar';
+import Navbar from './components/layout/Navbar';
 import { Landing } from './components/layout/Landing';
 import Alert from './components/layout/Alert';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 
+// imports our redux auth action to load a user
 import { loadUser } from './actions/auth';
+
+// imports our utils
 import setAuthToken from './utils/setAuthToken';
 
 // imports the css
 import './App.css';
 
+// if there is a token inside the local storage, sets the axios header
 if (localStorage.token) {
+  // sets the axios header using our util function
   setAuthToken(localStorage.token);
 }
 
 const App = () => {
+  // implements the use effect hook, similar to a component will mount life cycle
   useEffect(() => {
+    // dispatches the load user action
     store.dispatch(loadUser());
   }, []);
 

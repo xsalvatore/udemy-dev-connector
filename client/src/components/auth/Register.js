@@ -30,14 +30,17 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
     // prevents the browser from refreshing the page
     e.preventDefault();
 
-    // if both passwords don't match, logs a custom error message into the console (temporary)
+    // if the passwords don't match, we display an alert
     if (password !== password2) {
+      // displays a new alert to the user with a custom message and a red color
       setAlert('Passwords do not match', 'danger ');
     } else {
+      // registers the new user through the register redux action
       register({ name, email, password });
     }
   };
 
+  // if the user is authenticated, redirects him to the dashboard
   if (isAuthenticated) {
     return <Redirect to='/dashboard' />;
   }
@@ -92,9 +95,10 @@ Register.propTypes = {
   isAuthenticated: PropTypes.bool,
 };
 
+// holds the pieces of state from redux we need inside this component
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
 });
 
-// exports our components with connect from react-redux
+// connects our react component with redux
 export default connect(mapStateToProps, { setAlert, register })(Register);

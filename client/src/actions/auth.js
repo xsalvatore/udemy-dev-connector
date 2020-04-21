@@ -1,22 +1,27 @@
 import axios from 'axios';
 import { setAlert } from './alert';
-import { REGISTER_SUCCESS, REGISTER_FAIL, USER_LOADED, AUTH_ERROR, LOGIN_SUCCESS, LOGIN_FAIL } from './types';
+import { REGISTER_SUCCESS, REGISTER_FAIL, USER_LOADED, AUTH_ERROR, LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT } from './types';
 import setAuthToken from '../utils/setAuthToken';
 
 // loads a user
 export const loadUser = () => async (dispatch) => {
+  // if we have a token saved in the local sotrage, sets the token in the axios header
   if (localStorage.token) {
+    // calls the util function to set the token in the axios header
     setAuthToken(localStorage.token);
   }
 
   try {
+    // holds the response of the back end
     const res = await axios.get('/api/auth');
 
+    // dispatches the user loaded action
     dispatch({
       type: USER_LOADED,
       payload: res.data,
     });
   } catch (err) {
+    // dispatches the auth error action
     dispatch({ type: AUTH_ERROR });
   }
 };
@@ -81,4 +86,11 @@ export const login = (email, password) => async (dispatch) => {
       type: LOGIN_FAIL,
     });
   }
+};
+
+// logs out and clears out a user's profile
+export const logout = () => async (dispatch) => {
+  dispatch({
+    type: LOGOUT,
+  });
 };

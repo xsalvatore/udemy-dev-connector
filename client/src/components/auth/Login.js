@@ -1,8 +1,11 @@
 // imports the packages
 import React, { Fragment, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { login } from '../../actions/auth';
 
-export const Login = () => {
+const Login = ({ login, isAuthenticated }) => {
   // implements the usestate hook for the registration form
   const [formData, setFormData] = useState({
     email: '',
@@ -22,9 +25,13 @@ export const Login = () => {
     // prevents the browser from refreshing the page
     e.preventDefault();
 
-    // logs a success message into the console (temporary)
-    console.log('success');
+    login(email, password);
   };
+
+  // redirects the user if he is logged in
+  if (isAuthenticated) {
+    return <Redirect to='/dashboard' />;
+  }
 
   return (
     <Fragment>
@@ -61,3 +68,14 @@ export const Login = () => {
     </Fragment>
   );
 };
+
+Login.propTypes = {
+  login: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool,
+};
+
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps, { login })(Login);

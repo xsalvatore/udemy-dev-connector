@@ -156,6 +156,10 @@ img {
   color: #333;
 }
 
+.alert::first-letter {
+  text-transform: capitalize;
+}
+
 .btn-primary,
 .bg-primary,
 .badge-primary,

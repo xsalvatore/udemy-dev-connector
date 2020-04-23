@@ -19,7 +19,7 @@ router.get('/me', auth, async (req, res) => {
   try {
     // holds the profile (name and avatar) of the current user
     const profile = await Profile.findOne({
-      user: req.user.id
+      user: req.user.id,
     }).populate('user', ['name', 'avatar']);
 
     // if there is no profile attached to the user, returns a 400 status with a custom error message
@@ -46,13 +46,9 @@ router.post(
   [
     auth,
     [
-      check('status', 'status is required')
-        .not()
-        .isEmpty(),
-      check('skills', 'skills is required')
-        .not()
-        .isEmpty()
-    ]
+      check('status', 'status is required').not().isEmpty(),
+      check('skills', 'skills is required').not().isEmpty(),
+    ],
   ],
   async (req, res) => {
     // holds the errors returned by express-validator
@@ -76,7 +72,7 @@ router.post(
       facebook,
       twitter,
       instagram,
-      linkedin
+      linkedin,
     } = req.body;
 
     // builds and holds the profile object
@@ -95,7 +91,7 @@ router.post(
 
     // builds and formats the profile skills field
     if (skills) {
-      profileFields.skills = skills.split(',').map(skill => skill.trim());
+      profileFields.skills = skills.split(',').map((skill) => skill.trim());
     }
 
     // holds the profile social field
@@ -154,7 +150,7 @@ router.get('/user/:user_id', async (req, res) => {
   try {
     // holds the specific profile, with only the name and avatar, of the user id parameter specified in the url
     const profile = await Profile.findOne({
-      user: req.params.user_id
+      user: req.params.user_id,
     }).populate('user', ['name', 'avatar']);
 
     // if there is no profile,  returns a 400 status with a custom error message
@@ -208,16 +204,10 @@ router.put(
   [
     auth,
     [
-      check('title', 'title is required')
-        .not()
-        .isEmpty(),
-      check('company', 'company is required')
-        .not()
-        .isEmpty(),
-      check('from', 'from date is required')
-        .not()
-        .isEmpty()
-    ]
+      check('title', 'title is required').not().isEmpty(),
+      check('company', 'company is required').not().isEmpty(),
+      check('from', 'from date is required').not().isEmpty(),
+    ],
   ],
   async (req, res) => {
     // holds the validation errors
@@ -236,7 +226,7 @@ router.put(
       from,
       to,
       current,
-      description
+      description,
     } = req.body;
 
     // holds the new experience
@@ -247,7 +237,7 @@ router.put(
       from,
       to,
       current,
-      description
+      description,
     };
 
     try {
@@ -282,7 +272,7 @@ router.delete('/experience/:exp_id', auth, async (req, res) => {
 
     // gets the index of the experience about to be deleted
     const removeIndex = profile.experience
-      .map(item => item.id)
+      .map((item) => item.id)
       .indexOf(req.params.exp_id);
 
     // removes the experience
@@ -304,19 +294,11 @@ router.put(
   [
     auth,
     [
-      check('school', 'school is required')
-        .not()
-        .isEmpty(),
-      check('degree', 'degree is required')
-        .not()
-        .isEmpty(),
-      check('fieldofstudy', 'field of study is required')
-        .not()
-        .isEmpty(),
-      check('from', 'from date is required')
-        .not()
-        .isEmpty()
-    ]
+      check('school', 'school is required').not().isEmpty(),
+      check('degree', 'degree is required').not().isEmpty(),
+      check('fieldofstudy', 'field of study is required').not().isEmpty(),
+      check('from', 'from date is required').not().isEmpty(),
+    ],
   ],
   async (req, res) => {
     // holds the validation errors
@@ -335,7 +317,7 @@ router.put(
       from,
       to,
       current,
-      description
+      description,
     } = req.body;
 
     // holds the new education
@@ -346,7 +328,7 @@ router.put(
       from,
       to,
       current,
-      description
+      description,
     };
 
     try {
@@ -381,7 +363,7 @@ router.delete('/education/:edu_id', auth, async (req, res) => {
 
     // gets the index of the experience about to be deleted
     const removeIndex = profile.education
-      .map(item => item.id)
+      .map((item) => item.id)
       .indexOf(req.params.edu_id);
 
     // removes the experience
@@ -414,7 +396,7 @@ router.get('/github/:username', async (req, res) => {
         'githubClientId'
       )}&client_secret=${config.get('githubSecret')}`,
       method: 'GET',
-      headers: { 'user-agent': 'node.js' }
+      headers: { 'user-agent': 'node.js' },
     };
 
     // fetches the data from the github api

@@ -7,6 +7,7 @@ import { GET_PROFILE, PROFILE_ERROR } from './types';
 export const getCurrentProfile = () => async (dispatch) => {
   try {
     const res = await axios.get('/api/profile/me');
+
     dispatch({
       type: GET_PROFILE,
       payload: res.data,
@@ -30,14 +31,14 @@ export const createProfile = (formData, history, edit = false) => async (
       },
     };
 
-    const res = axios.post('/api/profile', formData, config);
+    const res = await axios.post('/api/profile', formData, config);
 
     dispatch({
       type: GET_PROFILE,
       payload: res.data,
     });
 
-    dispatch(setAlert(edit ? 'Profile Updated' : 'Profile Created'));
+    dispatch(setAlert(edit ? 'Profile Updated' : 'Profile Created', 'success'));
 
     if (!edit) {
       history.push('/dashboard');

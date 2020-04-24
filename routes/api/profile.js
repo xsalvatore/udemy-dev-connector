@@ -8,6 +8,7 @@ const config = require('config');
 // imports the mongoose user and profile schema
 const User = require('../../models/User');
 const Profile = require('../../models/Profile');
+const Post = require('../../models/Post');
 
 // holds the express router
 const router = express.Router();
@@ -179,6 +180,9 @@ router.get('/user/:user_id', async (req, res) => {
 // @access          public
 router.delete('/', auth, async (req, res) => {
   try {
+    // removes users posts
+    await Post.deleteMany({ user: req.user.id });
+
     // removes the profile
     await Profile.findOneAndRemove({ user: req.user.id });
 

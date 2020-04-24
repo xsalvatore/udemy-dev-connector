@@ -1,8 +1,13 @@
+// imports the packages
 import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+
+// imports redux actions
 import { getCurrentProfile, deleteAccount } from '../../actions/profile';
+
+// imports components
 import Spinner from '../layout/Spinner';
 import DashboardActions from './DashboardActions';
 import Experience from './Experience';
@@ -14,11 +19,14 @@ const Dashboard = ({
   auth: { user },
   profile: { profile, loading },
 }) => {
+  // implements the use effect hook, similar to a component will mount life cycle
   useEffect(() => {
+    // gets the current user's profile
     getCurrentProfile();
     // eslint-disable-next-line
   }, []);
 
+  // returns a loading spinner if loading is true and profile hasn't been set yet, otherwise return the dashboard component content
   return loading && profile === null ? (
     <Spinner />
   ) : (
@@ -51,6 +59,7 @@ const Dashboard = ({
   );
 };
 
+// holds the type of props we are expecting
 Dashboard.propTypes = {
   getCurrentProfile: PropTypes.func.isRequired,
   deleteAccount: PropTypes.func.isRequired,
@@ -58,11 +67,13 @@ Dashboard.propTypes = {
   profile: PropTypes.object.isRequired,
 };
 
+// maps the redux state to our props
 const mapStateToProps = (state) => ({
   auth: state.auth,
   profile: state.profile,
 });
 
+// exports the component using connect from react-redux
 export default connect(mapStateToProps, { getCurrentProfile, deleteAccount })(
   Dashboard
 );

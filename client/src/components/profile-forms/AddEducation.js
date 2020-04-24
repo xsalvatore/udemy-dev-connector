@@ -1,10 +1,14 @@
+// imports the packages
 import React, { Fragment, useState } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+
+// imports the redux action
 import { addEducation } from '../../actions/profile';
 
 const AddEducation = ({ addEducation, history }) => {
+  // implements the use state hook for this component state management
   const [formData, setFormData] = useState({
     school: '',
     degree: '',
@@ -15,6 +19,7 @@ const AddEducation = ({ addEducation, history }) => {
     description: '',
   });
 
+  // destructures the form data
   const {
     school,
     degree,
@@ -25,9 +30,11 @@ const AddEducation = ({ addEducation, history }) => {
     current,
   } = formData;
 
+  // sets the form data while the user fills the form
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
+  // returns the component
   return (
     <Fragment>
       <h1 className='large text-primary'>Add Your Education</h1>
@@ -119,8 +126,10 @@ const AddEducation = ({ addEducation, history }) => {
   );
 };
 
+// holds the types of props we are expecting
 AddEducation.propTypes = {
   addEducation: PropTypes.func.isRequired,
 };
 
+// export the component using connect from react-redux and using with router since we redirects
 export default connect(null, { addEducation })(withRouter(AddEducation));

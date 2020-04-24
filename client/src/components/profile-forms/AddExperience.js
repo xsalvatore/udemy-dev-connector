@@ -1,10 +1,14 @@
+// imports the packages
 import React, { Fragment, useState } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+
+// import redux action
 import { addExperience } from '../../actions/profile';
 
 const AddExperience = ({ addExperience, history }) => {
+  // implements the use state hook for this component state management
   const [formData, setFormData] = useState({
     company: '',
     title: '',
@@ -15,13 +19,17 @@ const AddExperience = ({ addExperience, history }) => {
     description: '',
   });
 
+  // implements the use state hook for this component state management
   const [toDateDisabled, toggleDisabled] = useState(false);
 
+  // destructures the form data
   const { company, title, location, from, to, current, description } = formData;
 
+  // sets the form data while the user fills the form
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
+  // returns the component
   return (
     <Fragment>
       <h1 className='large text-primary'>Add An Experience</h1>
@@ -119,8 +127,10 @@ const AddExperience = ({ addExperience, history }) => {
   );
 };
 
+// holds the types of props we are expecting
 AddExperience.propTypes = {
   addExperience: PropTypes.func.isRequired,
 };
 
+// export the component using connect from react-redux and using with router since we redirects
 export default connect(null, { addExperience })(withRouter(AddExperience));

@@ -1,10 +1,14 @@
+// imports the packages
 import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+
+// imports redux action
 import { createProfile } from '../../actions/profile';
 
 const CreateProfile = ({ createProfile, history }) => {
+  // implements the use state hook for this component state management
   const [formData, setFormData] = useState({
     company: '',
     website: '',
@@ -20,8 +24,10 @@ const CreateProfile = ({ createProfile, history }) => {
     instagram: '',
   });
 
+  // implements the use state hook for this component state management
   const [displaySocialInputs, toggleSocialInputs] = useState(false);
 
+  // destructures the form data
   const {
     company,
     website,
@@ -37,14 +43,20 @@ const CreateProfile = ({ createProfile, history }) => {
     instagram,
   } = formData;
 
+  // sets the form data while the user fills the form
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
+  // submits the form
   const onSubmit = (e) => {
+    // prevents the page to refresh when the user submits the form
     e.preventDefault();
+
+    // creates the profile passing the history and the form data
     createProfile(formData, history);
   };
 
+  // returns the component
   return (
     <Fragment>
       <h1 className='large text-primary'>Create Your Profile</h1>
@@ -220,8 +232,10 @@ const CreateProfile = ({ createProfile, history }) => {
   );
 };
 
+// holds the types of props we are expecting
 CreateProfile.propTypes = {
   createProfile: PropTypes.func.isRequired,
 };
 
+// export the component using connect from react-redux and using with router since we redirects
 export default connect(null, { createProfile })(withRouter(CreateProfile));

@@ -1,10 +1,14 @@
+// imports the packages
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Moment from 'react-moment';
+
+// imports redux action
 import { deleteExperience } from '../../actions/profile';
 
 const Experience = ({ experience, deleteExperience }) => {
+  // holds the different rows of the experience table
   const experiences = experience.map((exp) => (
     <tr key={exp.id}>
       <td>{exp.company}</td>
@@ -28,6 +32,7 @@ const Experience = ({ experience, deleteExperience }) => {
     </tr>
   ));
 
+  // returns the experience component content
   return (
     <Fragment>
       <h2 className='my-2'>Experience Credentials</h2>
@@ -46,9 +51,11 @@ const Experience = ({ experience, deleteExperience }) => {
   );
 };
 
+// holds the types of props we are expecting
 Experience.propTypes = {
   experience: PropTypes.array.isRequired,
   deleteExperience: PropTypes.func.isRequired,
 };
 
+// exports the component using connect from react-redux
 export default connect(null, { deleteExperience })(Experience);

@@ -1,10 +1,14 @@
+// imports the packages
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Moment from 'react-moment';
+
+// imports redux action
 import { deleteEducation } from '../../actions/profile';
 
 const Education = ({ education, deleteEducation }) => {
+  // holds the different rows of the education table
   const educations = education.map((edu) => (
     <tr key={edu.id}>
       <td>{edu.school}</td>
@@ -28,6 +32,7 @@ const Education = ({ education, deleteEducation }) => {
     </tr>
   ));
 
+  // returns the education component content
   return (
     <Fragment>
       <h2 className='my-2'>Education Credentials</h2>
@@ -46,9 +51,11 @@ const Education = ({ education, deleteEducation }) => {
   );
 };
 
+// holds the types of props we are expecting
 Education.propTypes = {
   education: PropTypes.array.isRequired,
   deleteEducation: PropTypes.func.isRequired,
 };
 
+// exports the component using connect from react-redux
 export default connect(null, { deleteEducation })(Education);

@@ -1,7 +1,10 @@
+// imports the packages
 import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+
+// imports redux actions
 import { createProfile, getCurrentProfile } from '../../actions/profile';
 
 const EditProfile = ({
@@ -10,6 +13,7 @@ const EditProfile = ({
   getCurrentProfile,
   history,
 }) => {
+  // implements the use state hook for this component state management
   const [formData, setFormData] = useState({
     company: '',
     website: '',
@@ -25,11 +29,15 @@ const EditProfile = ({
     instagram: '',
   });
 
+  // implements the use state hook for this component state management
   const [displaySocialInputs, toggleSocialInputs] = useState(false);
 
+  // implements the use effect hook, similar to a component will mount life cycle
   useEffect(() => {
+    // gets the current user profile
     getCurrentProfile();
 
+    // sets the forms fields
     setFormData({
       company: loading || !profile.company ? '' : profile.company,
       website: loading || !profile.website ? '' : profile.website,
@@ -48,6 +56,7 @@ const EditProfile = ({
     // eslint-disable-next-line
   }, [loading]);
 
+  // destructures the form data
   const {
     company,
     website,
@@ -63,14 +72,20 @@ const EditProfile = ({
     instagram,
   } = formData;
 
+  // sets the form data while the user fills the form
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
+  // submits the form
   const onSubmit = (e) => {
+    // prevents the page refresh after the form submission
     e.preventDefault();
+
+    // calls the create profile redux action
     createProfile(formData, history, true);
   };
 
+  // returns the component
   return (
     <Fragment>
       <h1 className='large text-primary'>Create Your Profile</h1>
@@ -246,16 +261,19 @@ const EditProfile = ({
   );
 };
 
+// holds the types of props we are expecting
 EditProfile.propTypes = {
   createProfile: PropTypes.func.isRequired,
   getCurrentProfile: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
 };
 
+// map the redux state to our props
 const mapStateToProps = (state) => ({
   profile: state.profile,
 });
 
+// exports the component using connect from react-redux and with router since we redirect
 export default connect(mapStateToProps, { createProfile, getCurrentProfile })(
   withRouter(EditProfile)
 );

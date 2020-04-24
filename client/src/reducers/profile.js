@@ -1,3 +1,4 @@
+// imports the types
 import {
   GET_PROFILE,
   PROFILE_ERROR,
@@ -5,6 +6,7 @@ import {
   UPDATE_PROFILE,
 } from '../actions/types';
 
+// holds the initial state
 const initialState = {
   profile: null,
   profiles: [],
@@ -14,6 +16,7 @@ const initialState = {
 };
 
 export default function (state = initialState, action) {
+  // destructures the action parameter
   const { type, payload } = action;
 
   switch (type) {

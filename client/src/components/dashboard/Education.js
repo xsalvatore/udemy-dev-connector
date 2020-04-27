@@ -10,7 +10,7 @@ import { deleteEducation } from '../../actions/profile';
 const Education = ({ education, deleteEducation }) => {
   // holds the different rows of the education table
   const educations = education.map((edu) => (
-    <tr key={edu.id}>
+    <tr key={edu._id}>
       <td>{edu.school}</td>
       <td className='hide-sm'>{edu.degree}</td>
       <td>

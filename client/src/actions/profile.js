@@ -277,8 +277,8 @@ export const deleteAccount = () => async (dispatch) => {
   // pops up a confirmation alert to the user for confirmation
   if (window.confirm('Are you sure? This can NOT be undone')) {
     try {
-      // holds the axios response delete
-      const res = await axios.delete('/api/profile/');
+      // awaits the axios delete to be completed
+      await axios.delete('/api/profile/');
 
       // dispatches the clear profile redux action
       dispatch({ type: CLEAR_PROFILE });

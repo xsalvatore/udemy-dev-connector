@@ -23,8 +23,7 @@ const Dashboard = ({
   useEffect(() => {
     // gets the current user's profile
     getCurrentProfile();
-    // eslint-disable-next-line
-  }, []);
+  }, [getCurrentProfile]);
 
   // returns a loading spinner if loading is true and profile hasn't been set yet, otherwise return the dashboard component content
   return loading && profile === null ? (

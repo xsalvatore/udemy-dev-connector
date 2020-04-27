@@ -10,7 +10,7 @@ import { deleteExperience } from '../../actions/profile';
 const Experience = ({ experience, deleteExperience }) => {
   // holds the different rows of the experience table
   const experiences = experience.map((exp) => (
-    <tr key={exp.id}>
+    <tr key={exp._id}>
       <td>{exp.company}</td>
       <td className='hide-sm'>{exp.title}</td>
       <td>

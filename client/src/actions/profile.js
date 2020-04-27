@@ -7,10 +7,12 @@ import { setAlert } from './alert';
 // imports redux types
 import {
   GET_PROFILE,
+  GET_PROFILES,
   PROFILE_ERROR,
   UPDATE_PROFILE,
   CLEAR_PROFILE,
   ACCOUNT_DELETED,
+  GET_REPOS,
 } from './types';
 
 // gets the current users profile
@@ -22,6 +24,69 @@ export const getCurrentProfile = () => async (dispatch) => {
     // dispatches the get profile redux action with the response data received by axios
     dispatch({
       type: GET_PROFILE,
+      payload: res.data,
+    });
+  } catch (err) {
+    // dispatches the profile error redux action with the different messages and status of the error that happened
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+// gets all profiles
+export const getProfiles = () => async (dispatch) => {
+  try {
+    // dispatches a clear profile redux action
+    dispatch({ type: CLEAR_PROFILE });
+
+    // awaits the api call made using axios
+    const res = await axios.get('/api/profile');
+
+    // dispatches the get profiles redux action with the response data received by axios
+    dispatch({
+      type: GET_PROFILES,
+      payload: res.data,
+    });
+  } catch (err) {
+    // dispatches the profile error redux action with the different messages and status of the error that happened
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+// gets a profile by id
+export const getProfileById = (userId) => async (dispatch) => {
+  try {
+    // awaits the api call made using axios
+    const res = await axios.get(`/api/profile/user/${userId}`);
+
+    // dispatches the get profiles redux action with the response data received by axios
+    dispatch({
+      type: GET_PROFILE,
+      payload: res.data,
+    });
+  } catch (err) {
+    // dispatches the profile error redux action with the different messages and status of the error that happened
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+// gets github repos
+export const getGithubRepos = (username) => async (dispatch) => {
+  try {
+    // awaits the api call made using axios
+    const res = await axios.get(`/api/profile/github/${username}`);
+
+    // dispatches the get profiles redux action with the response data received by axios
+    dispatch({
+      type: GET_REPOS,
       payload: res.data,
     });
   } catch (err) {

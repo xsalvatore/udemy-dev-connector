@@ -1,3 +1,4 @@
+// imports the packages
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
@@ -36,8 +37,10 @@ const ProfileItem = ({
   );
 };
 
+// holds the types of props we are expecting
 ProfileItem.propTypes = {
   profile: PropTypes.object.isRequired,
 };
 
+// exports the component
 export default ProfileItem;

@@ -1,3 +1,4 @@
+// imports the packages
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
@@ -28,8 +29,10 @@ const ProfileAbout = ({
   </div>
 );
 
+// holds the types of props we are expecting
 ProfileAbout.propTypes = {
   profile: PropTypes.object.isRequired,
 };
 
+// exports the component
 export default ProfileAbout;

@@ -1,3 +1,4 @@
+// imports the packages
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -55,8 +56,10 @@ const ProfileTop = ({
   );
 };
 
+// holds the type of props we are expecting
 ProfileTop.propTypes = {
   profile: PropTypes.object.isRequired,
 };
 
+// exports the components
 export default ProfileTop;

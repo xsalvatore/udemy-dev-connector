@@ -84,7 +84,7 @@ export const getGithubRepos = (username) => async (dispatch) => {
     // awaits the api call made using axios
     const res = await axios.get(`/api/profile/github/${username}`);
 
-    // dispatches the get profiles redux action with the response data received by axios
+    // dispatches the get repos redux action with the response data received by axios
     dispatch({
       type: GET_REPOS,
       payload: res.data,

@@ -1,3 +1,4 @@
+// imports the packages
 import React from 'react';
 import PropTypes from 'prop-types';
 import Moment from 'react-moment';
@@ -23,8 +24,10 @@ const ProfileEducation = ({
   </div>
 );
 
+// holds the types of props we are expecting
 ProfileEducation.propTypes = {
-  education: PropTypes.array.isRequired,
+  education: PropTypes.object.isRequired,
 };
 
+// exports the component
 export default ProfileEducation;

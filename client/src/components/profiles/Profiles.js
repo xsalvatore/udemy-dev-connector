@@ -1,11 +1,17 @@
+// imports the packages
 import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+
+// imports the components
 import Spinner from '../layout/Spinner';
-import { getProfiles } from '../../actions/profile';
 import ProfileItem from './ProfileItem';
 
+// imports the redux action
+import { getProfiles } from '../../actions/profile';
+
 const Profiles = ({ getProfiles, profile: { profiles, loading } }) => {
+  // implements the use effect hook
   useEffect(() => {
     getProfiles();
   }, [getProfiles]);
@@ -37,13 +43,16 @@ const Profiles = ({ getProfiles, profile: { profiles, loading } }) => {
   );
 };
 
+// holds the types of props we are expecting
 Profiles.propTypes = {
   getProfiles: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
 };
 
+// maps redux state to our props
 const mapStateToProps = (state) => ({
   profile: state.profile,
 });
 
+// exports the component using connect from react-redux
 export default connect(mapStateToProps, { getProfiles })(Profiles);

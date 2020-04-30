@@ -1,3 +1,4 @@
+// imports the packages
 import React from 'react';
 import PropTypes from 'prop-types';
 import Moment from 'react-moment';
@@ -20,8 +21,10 @@ const ProfileExperience = ({
   </div>
 );
 
+// holds the types of props we are expecting
 ProfileExperience.propTypes = {
   experience: PropTypes.object.isRequired,
 };
 
+// exports the component
 export default ProfileExperience;

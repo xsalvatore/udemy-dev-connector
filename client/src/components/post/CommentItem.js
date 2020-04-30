@@ -1,8 +1,11 @@
+// imports the packages
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Moment from 'react-moment';
+
+// imports the redux action
 import { deleteComment } from '../../actions/post';
 
 const CommentItem = ({
@@ -38,6 +41,7 @@ const CommentItem = ({
   </div>
 );
 
+// holds the types of props we are expecting
 CommentItem.propTypes = {
   postId: PropTypes.number.isRequired,
   comment: PropTypes.object.isRequired,
@@ -45,7 +49,10 @@ CommentItem.propTypes = {
   deleteComment: PropTypes.func.isRequired,
 };
 
+// maps the redux state to our props
 const mapStateToProps = (state) => ({
   auth: state.auth,
 });
+
+// exports the component using react-redux connect
 export default connect(mapStateToProps, { deleteComment })(CommentItem);

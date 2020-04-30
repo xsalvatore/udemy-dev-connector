@@ -1,8 +1,11 @@
+// imports the packages
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
 import { connect } from 'react-redux';
+
+// imports the redux actions
 import { addLike, removeLike, deletePost } from '../../actions/post';
 
 const PostItem = ({
@@ -64,10 +67,12 @@ const PostItem = ({
   </div>
 );
 
+// holds the default value of some props
 PostItem.defaultProps = {
   showActions: true,
 };
 
+// holds the types of the props we are expecting
 PostItem.propTypes = {
   post: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
@@ -76,10 +81,12 @@ PostItem.propTypes = {
   deletePost: PropTypes.func.isRequired,
 };
 
+// maps redux state to our props
 const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
+// exports the component using react-redux connect
 export default connect(mapStateToProps, { addLike, removeLike, deletePost })(
   PostItem
 );

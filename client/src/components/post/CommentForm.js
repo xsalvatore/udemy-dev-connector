@@ -1,9 +1,13 @@
+// import the packages
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+
+// import the redux action
 import { addComment } from '../../actions/post';
 
 const CommentForm = ({ postId, addComment }) => {
+  // holds the component state
   const [text, setText] = useState('');
 
   return (
@@ -34,8 +38,10 @@ const CommentForm = ({ postId, addComment }) => {
   );
 };
 
+// holds the types of props we are expecting
 CommentForm.propTypes = {
   addComment: PropTypes.func.isRequired,
 };
 
+// exports the component using connect from react-redux
 export default connect(null, { addComment })(CommentForm);

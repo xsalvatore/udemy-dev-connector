@@ -1,16 +1,24 @@
+// imports the packages
 import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getPosts } from '../../actions/post';
+
+// imports the components
 import Spinner from '../layout/Spinner';
 import PostItem from './PostItem';
 import PostForm from './PostForm';
 
+// imports the redux action
+import { getPosts } from '../../actions/post';
+
 const Posts = ({ getPosts, post: { posts, loading } }) => {
+  // implements the use effect hook
   useEffect(() => {
+    // gets all posts
     getPosts();
   }, [getPosts]);
 
+  // returns the component or a loader
   return loading ? (
     <Spinner />
   ) : (
@@ -29,13 +37,16 @@ const Posts = ({ getPosts, post: { posts, loading } }) => {
   );
 };
 
+// holds the types of props we are expecting
 Posts.propTypes = {
   getPosts: PropTypes.func.isRequired,
   post: PropTypes.object.isRequired,
 };
 
+// maps our redux state to our props
 const mapStateToProps = (state) => ({
   post: state.post,
 });
 
+// exports the component using react-redux connect
 export default connect(mapStateToProps, { getPosts })(Posts);

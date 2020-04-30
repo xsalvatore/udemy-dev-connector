@@ -1,9 +1,13 @@
+// imports the packages
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+
+// imports the redux action
 import { addPost } from '../../actions/post';
 
 const PostForm = ({ addPost }) => {
+  // holds our component state
   const [text, setText] = useState('');
 
   return (
@@ -34,8 +38,10 @@ const PostForm = ({ addPost }) => {
   );
 };
 
+// holds the types of props we are expecting
 PostForm.propTypes = {
   addPost: PropTypes.func.isRequired,
 };
 
+// exports the component using react-redux connect
 export default connect(null, { addPost })(PostForm);

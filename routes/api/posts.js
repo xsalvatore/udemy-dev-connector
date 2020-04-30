@@ -14,40 +14,44 @@ const router = express.Router();
 // @route           post api/posts
 // @description     creates a post
 // @access          private
-router.post('/', [auth, [check('text', 'Text is required').not().isEmpty()]], async (req, res) => {
-  // holds the errors
-  const errors = validationResult(req);
+router.post(
+  '/',
+  [auth, [check('text', 'Text is required').not().isEmpty()]],
+  async (req, res) => {
+    // holds the errors
+    const errors = validationResult(req);
 
-  // if we have some errors, returns a 400 status with the custom error messages defined previously
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
+    // if we have some errors, returns a 400 status with the custom error messages defined previously
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    try {
+      // holds the user adding a new post without the password
+      const user = await User.findById(req.user.id).select('-password');
+
+      // holds the new post
+      const newPost = new Post({
+        text: req.body.text,
+        name: user.name,
+        avatar: user.avatar,
+        user: req.user.id,
+      });
+
+      // saves the new post to the database
+      const post = await newPost.save();
+
+      // returns the new post
+      res.json(post);
+    } catch (err) {
+      // logs the message from the error object
+      console.error(err.message);
+
+      // returns a 500 status with a custom error message
+      res.status(500).send('server error');
+    }
   }
-
-  try {
-    // holds the user adding a new post without the password
-    const user = await User.findById(req.user.id).select('-password');
-
-    // holds the new post
-    const newPost = new Post({
-      text: req.body.text,
-      name: user.name,
-      avatar: user.avatar,
-      user: req.user.id,
-    });
-
-    // saves the new post to the database
-    const post = await newPost.save();
-
-    // returns the new post
-    res.json(post);
-  } catch (err) {
-    // logs the message from the error object
-    console.error(err.message);
-
-    // returns a 500 status with a custom error message
-    res.status(500).send('server error');
-  }
-});
+);
 
 // @route           get api/posts
 // @description     gets all the posts
@@ -77,12 +81,12 @@ router.get('/:id', auth, async (req, res) => {
     const post = await Post.findById(req.params.id).sort({ date: -1 });
 
     // if there is no post, returns a 404 status with a custom error message
-    if (!posts) {
+    if (!post) {
       return res.status(404).json({ msg: 'no posts found' });
     }
 
     // returns the post
-    res.json(posts);
+    res.json(post);
   } catch (err) {
     // logs the message from the error object
     console.error(err.message);
@@ -138,7 +142,10 @@ router.put('/like/:id', auth, async (req, res) => {
     const post = await Post.findById(req.params.id);
 
     // checks if the post has been liked already by the current logged in user
-    if (post.likes.filter((like) => like.user.toString() === req.user.id).length > 0) {
+    if (
+      post.likes.filter((like) => like.user.toString() === req.user.id).length >
+      0
+    ) {
       return res.status(400).json({ msg: 'post already liked' });
     }
 
@@ -174,7 +181,9 @@ router.put('/unlike/:id', auth, async (req, res) => {
     }
 
     // removes the like
-    post.likes = post.likes.filter(({ user }) => user.toString() !== req.user.id);
+    post.likes = post.likes.filter(
+      ({ user }) => user.toString() !== req.user.id
+    );
 
     // saves the post to the database
     await post.save();
@@ -190,46 +199,50 @@ router.put('/unlike/:id', auth, async (req, res) => {
 // @route           post api/posts/comments/:id
 // @description     comments on a post
 // @access          private
-router.post('/comment/:id', [auth, [check('text', 'Text is required').not().isEmpty()]], async (req, res) => {
-  // holds the errors
-  const errors = validationResult(req);
+router.post(
+  '/comment/:id',
+  [auth, [check('text', 'Text is required').not().isEmpty()]],
+  async (req, res) => {
+    // holds the errors
+    const errors = validationResult(req);
 
-  // if we have some errors, returns a 400 status with the custom error messages defined previously
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
+    // if we have some errors, returns a 400 status with the custom error messages defined previously
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    try {
+      // holds the user adding a new post without the password
+      const user = await User.findById(req.user.id).select('-password');
+
+      // holds the post we want to comment on
+      const post = await Post.findById(req.params.id);
+
+      // holds the new comment
+      const newComment = {
+        text: req.body.text,
+        name: user.name,
+        avatar: user.avatar,
+        user: req.user.id,
+      };
+
+      // adds the new comment on the post
+      post.comments.unshift(newComment);
+
+      // saves the post with the new comment
+      await post.save();
+
+      // returns the post with the new comment
+      res.json(post.comments);
+    } catch (err) {
+      // logs the message from the error object
+      console.error(err.message);
+
+      // returns a 500 status with a custom error message
+      res.status(500).send('server error');
+    }
   }
-
-  try {
-    // holds the user adding a new post without the password
-    const user = await User.findById(req.user.id).select('-password');
-
-    // holds the post we want to comment on
-    const post = await Post.findById(req.params.id);
-
-    // holds the new comment
-    const newComment = {
-      text: req.body.text,
-      name: user.name,
-      avatar: user.avatar,
-      user: req.user.id,
-    };
-
-    // adds the new comment on the post
-    post.comments.unshift(newComment);
-
-    // saves the post with the new comment
-    await post.save();
-
-    // returns the post with the new comment
-    res.json(post.comments);
-  } catch (err) {
-    // logs the message from the error object
-    console.error(err.message);
-
-    // returns a 500 status with a custom error message
-    res.status(500).send('server error');
-  }
-});
+);
 
 // @route           delete api/posts/comments/:id/:comment_id
 // @description     deletes a comment on a post
@@ -240,7 +253,9 @@ router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
     const post = await Post.findById(req.params.id);
 
     // pulls out the comment we want to remove
-    const comment = post.comments.find((comment) => comment.id === req.params.comment_id);
+    const comment = post.comments.find(
+      (comment) => comment.id === req.params.comment_id
+    );
 
     // checks if the comment exist
     if (!comment) {
@@ -253,7 +268,9 @@ router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
     }
 
     // gets the index of the comment we need to remove
-    const removeIndex = post.comments.map((comment) => comment.user.toString()).indexOf(req.user.id);
+    const removeIndex = post.comments
+      .map((comment) => comment.user.toString())
+      .indexOf(req.user.id);
 
     // removes the comment from the array
     post.comments.splice(removeIndex, 1);

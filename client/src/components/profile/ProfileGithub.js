@@ -13,7 +13,7 @@ const ProfileGithub = ({ username, getGithubRepos, repos }) => {
   // implements the use effect hook
   useEffect(() => {
     getGithubRepos(username);
-  }, [getGithubRepos]);
+  }, [getGithubRepos, username]);
 
   return (
     <div className='profile-github'>
